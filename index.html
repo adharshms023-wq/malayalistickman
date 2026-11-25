@@ -89,6 +89,7 @@ footer a{color:var(--acc)}
 <label>Caption (optional)</label>
 <input type="text" id="cap" maxlength="40" placeholder="e.g. Enthaa mone!">
 <div class="row">
+<button id="change" class="alt" style="display:none">Change video</button>
 <button id="prev" class="alt" disabled>▶ Preview</button>
 <button id="make" disabled>Create sticker clip</button>
 </div>
@@ -173,25 +174,37 @@ function loop(){draw();timer=requestAnimationFrame(loop)}
 
 function status(m){$('status').textContent=m}
 function pick(f){
-if(!f||f.type.indexOf('video')!==0){status('Please choose a video file.');return}
-if(url)URL.revokeObjectURL(url);url=URL.createObjectURL(f);v.src=url;
+if(busy||!f)return;
+if(f.type.indexOf('video/')!==0&&!/\.(mp4|mov|webm|m4v|3gp|mkv)$/i.test(f.name)){status('Please choose a video file.');return}
+pv=false;v.pause();clearResult();ready(false);status('Loading video…');
+if(url)URL.revokeObjectURL(url);url=URL.createObjectURL(f);
 v.onloadedmetadata=function(){
-var d=v.duration||10;$('start').max=Math.max(0,(d-1)).toFixed(1);$('start').value=0;$('start').disabled=false;$('len').disabled=false;
-$('prev').disabled=false;$('make').disabled=false;$('drop').style.display='none';v.currentTime=0;$('sv').textContent='0.0s';
+if(v.duration===Infinity){v.ondurationchange=function(){if(v.duration!==Infinity){v.ondurationchange=null;loaded()}};v.currentTime=1e7}
+else loaded()};
+v.onerror=function(){ready(false);$('drop').style.display='grid';status('Could not read that video. Try an MP4.')};
+v.src=url}
+function loaded(){
+var d=v.duration;$('start').max=(Math.floor(Math.max(0,d-1)*10)/10).toFixed(1);$('start').value=0;$('sv').textContent='0.0s';
+v.currentTime=0;ready(true);$('drop').style.display='none';
 status('Loaded ('+d.toFixed(1)+'s). Adjust and create your sticker clip.');
-if(!timer)loop()};
-v.onerror=function(){status('Could not read that video. Try an MP4.')}}
+if(!timer)loop()}
+function ready(on){['start','len','prev','make'].forEach(function(i){$(i).disabled=!on});$('change').style.display=on?'':'none'}
+function clearResult(){$('result').style.display='none';$('steps').style.display='none';$('out').pause();$('out').removeAttribute('src');outBlob=null;if(blobUrl)URL.revokeObjectURL(blobUrl);blobUrl=null}
 $('drop').onclick=function(){$('file').click()};
 $('stage').addEventListener('dragover',function(e){e.preventDefault()});
+addEventListener('dragover',function(e){e.preventDefault()});addEventListener('drop',function(e){e.preventDefault()});
 $('stage').addEventListener('drop',function(e){e.preventDefault();pick(e.dataTransfer.files[0])});
-$('file').onchange=function(){pick(this.files[0])};
+$('file').onchange=function(){pick(this.files[0]);this.value=''};
 $('start').oninput=function(){$('sv').textContent=(+this.value).toFixed(1)+'s';v.pause();v.currentTime=+this.value};
 $('len').oninput=function(){$('lv').textContent=(+this.value).toFixed(1)+'s'};
 
 function endAt(){return Math.min(v.duration,+$('start').value+ +$('len').value)}
-var pv=false;
+var pv=false,busy=false;
+$('change').onclick=function(){$('file').click()};
+function lock(on){busy=on;['start','len','fit','cap','prev','make','change'].forEach(function(i){$(i).disabled=on})}
 $('prev').onclick=function(){
-v.currentTime=+$('start').value;v.muted=false;v.play();pv=true};
+$('out').pause();v.currentTime=+$('start').value;v.muted=false;if(audioCtx)audioCtx.resume();pv=true;
+v.play().catch(function(){pv=false;status('Could not play. Tap Preview again.')})};
 v.ontimeupdate=function(){if(pv&&v.currentTime>=endAt()){v.pause();pv=false}};
 
 function setupAudio(){
@@ -201,37 +214,42 @@ src=audioCtx.createMediaElementSource(v);dest=audioCtx.createMediaStreamDestinat
 src.connect(dest);src.connect(audioCtx.destination)}
 
 $('make').onclick=function(){
-if(!window.MediaRecorder){status('Your browser cannot record video. Try Chrome, Edge or Firefox.');return}
-pv=false;v.pause();
+if(busy)return;
+if(!window.MediaRecorder||!cv.captureStream){status('Your browser cannot record video. Try an updated Chrome or Safari.');return}
+pv=false;v.pause();clearResult();
 try{setupAudio();if(audioCtx.state==='suspended')audioCtx.resume()}catch(e){}
-var vs=cv.captureStream(30),tracks=vs.getVideoTracks();
-if(dest)dest.stream.getAudioTracks().forEach(function(t){tracks.push(t)});
-var ms=new MediaStream(tracks);
+if(!dest){status('Could not capture sound in this browser. Try an updated Chrome or Safari.');return}
+var vs=cv.captureStream(30),ms=new MediaStream(vs.getVideoTracks().concat(dest.stream.getAudioTracks()));
 var types=['video/mp4;codecs=avc1,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'],mt='';
 for(var i=0;i<types.length;i++){if(MediaRecorder.isTypeSupported(types[i])){mt=types[i];break}}
 var rec;try{rec=new MediaRecorder(ms,mt?{mimeType:mt,videoBitsPerSecond:2500000}:{})}catch(e){status('Recording failed: '+e.message);return}
-outExt=(rec.mimeType||mt).indexOf('mp4')>-1?'mp4':'webm';
-var chunks=[];rec.ondataavailable=function(e){if(e.data.size)chunks.push(e.data)};
-var s=+$('start').value,e=endAt(),dur=Math.max(0.5,e-s);
-$('make').disabled=true;$('prev').disabled=true;$('pg').style.display='block';$('pg').value=0;status('Creating clip…');
-$('result').style.display='none';$('steps').style.display='none';
-var tick;
-rec.onstop=function(){
-clearInterval(tick);v.pause();
-var type=(rec.mimeType||('video/'+outExt)).split(';')[0];
-outBlob=new Blob(chunks,{type:type});
-if(blobUrl)URL.revokeObjectURL(blobUrl);blobUrl=URL.createObjectURL(outBlob);
-$('out').src=blobUrl;$('result').style.display='block';$('pg').style.display='none';
-$('make').disabled=false;$('prev').disabled=false;
-status(outExt==='mp4'?'Done! Tap "Add to WhatsApp sticker".':'Done, but this browser made a WebM file, which WhatsApp may not accept. Try an updated Chrome or Safari.')};
-var go=function(){
-v.onseeked=null;rec.start(200);v.muted=false;
-v.play().catch(function(){status('Tap Create again to allow playback.');if(rec.state!=='inactive')rec.stop()});
-var t0=performance.now();
+var chunks=[],failed='',tick,s=+$('start').value,e=endAt(),dur=Math.max(0.5,e-s),last=s,lastMove;
+rec.ondataavailable=function(ev){if(ev.data.size)chunks.push(ev.data)};
+function finish(why){
+if(!busy)return;if(why)failed=why;clearInterval(tick);v.onseeked=null;v.pause();document.removeEventListener('visibilitychange',hidden);
+if(rec.state!=='inactive')rec.stop();else done()}
+function done(){
+vs.getTracks().forEach(function(t){t.stop()});lock(false);$('pg').style.display='none';
+if(failed||!chunks.length){status(failed||'Nothing was recorded. Please try again.');return}
+var type=(rec.mimeType||mt||'video/webm').split(';')[0];outExt=type.indexOf('mp4')>-1?'mp4':'webm';
+outBlob=new Blob(chunks,{type:type});blobUrl=URL.createObjectURL(outBlob);
+$('out').src=blobUrl;$('result').style.display='block';
+status(outExt==='mp4'?'Done! Tap "Add to WhatsApp sticker".':'Done, but this browser made a WebM file, which WhatsApp may not accept. Try an updated Chrome or Safari.')}
+rec.onstop=done;
+function hidden(){if(document.hidden)finish('Recording stopped because you left the page. Keep it open and try again.')}
+document.addEventListener('visibilitychange',hidden);
+lock(true);$('pg').style.display='block';$('pg').value=0;status('Creating clip… keep this page open.');
+function go(){
+v.onseeked=null;draw();v.muted=false;
+v.play().then(function(){
+if(!busy)return;rec.start();lastMove=performance.now();
 tick=setInterval(function(){
-var p=Math.min(100,(performance.now()-t0)/(dur*1000)*100);$('pg').value=p;
-if(v.currentTime>=e||v.ended||p>=100){clearInterval(tick);if(rec.state!=='inactive')rec.stop()}},100)};
-v.onseeked=go;v.currentTime=s};
+var t=v.currentTime;$('pg').value=Math.min(100,(t-s)/dur*100);
+if(t>last){last=t;lastMove=performance.now()}
+if(t>=e||v.ended)finish();
+else if(performance.now()-lastMove>5000)finish('The video stopped playing. Please try again.')},30)
+}).catch(function(){finish('Playback was blocked. Tap Create again.')})}
+if(Math.abs(v.currentTime-s)<0.01&&!v.seeking)go();else{v.onseeked=go;v.currentTime=s}};
 
 function download(){var a=document.createElement('a');a.href=blobUrl;a.download='malayalistickman-'+Date.now()+'.'+outExt;document.body.appendChild(a);a.click();a.remove()}
 $('add').onclick=function(){if(!blobUrl)return;download();$('steps').style.display='block'};
