@@ -220,7 +220,7 @@ pv=false;v.pause();clearResult();
 try{setupAudio();if(audioCtx.state==='suspended')audioCtx.resume()}catch(e){}
 if(!dest){status('Could not capture sound in this browser. Try an updated Chrome or Safari.');return}
 var vs=cv.captureStream(30),ms=new MediaStream(vs.getVideoTracks().concat(dest.stream.getAudioTracks()));
-var types=['video/mp4;codecs=avc1,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'],mt='';
+var types=['video/mp4;codecs="avc1.42E01E,mp4a.40.2"','video/mp4;codecs=avc1,mp4a.40.2','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'],mt='';
 for(var i=0;i<types.length;i++){if(MediaRecorder.isTypeSupported(types[i])){mt=types[i];break}}
 var rec;try{rec=new MediaRecorder(ms,mt?{mimeType:mt,videoBitsPerSecond:2500000}:{})}catch(e){status('Recording failed: '+e.message);return}
 var chunks=[],failed='',tick,s=+$('start').value,e=endAt(),dur=Math.max(0.5,e-s),last=s,lastMove;
@@ -232,9 +232,11 @@ function done(){
 vs.getTracks().forEach(function(t){t.stop()});lock(false);$('pg').style.display='none';
 if(failed||!chunks.length){status(failed||'Nothing was recorded. Please try again.');return}
 var type=(rec.mimeType||mt||'video/webm').split(';')[0];outExt=type.indexOf('mp4')>-1?'mp4':'webm';
-outBlob=new Blob(chunks,{type:type});blobUrl=URL.createObjectURL(outBlob);
+outBlob=new Blob(chunks,{type:type});
+var good=outExt==='mp4'&&/avc1/.test(mt);$('add').disabled=!good;$('steps').style.display='none';blobUrl=URL.createObjectURL(outBlob);
 $('out').src=blobUrl;$('result').style.display='block';
-status(outExt==='mp4'?'Done! Tap "Add to WhatsApp sticker".':'Done, but this browser made a WebM file, which WhatsApp may not accept. Try an updated Chrome or Safari.')}
+var info=' (Format: '+(rec.mimeType||mt||'unknown')+', '+Math.round(outBlob.size/1024)+' KB)';
+status((good?'Done! Tap "Add to WhatsApp sticker".':'This browser cannot make the H.264 + AAC video needed for WhatsApp. Try an updated Chrome on Android or Safari on iPhone.')+info)}
 rec.onstop=done;
 function hidden(){if(document.hidden)finish('Recording stopped because you left the page. Keep it open and try again.')}
 document.addEventListener('visibilitychange',hidden);
