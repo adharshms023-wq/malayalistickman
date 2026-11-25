@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Malayali Stickman – WhatsApp Sticker Maker with Sound, Free Online</title>
+<meta name="description" content="Malayali Stickman: free online tool to trim any video into a square clip with sound, ready to turn into a WhatsApp sound sticker where WhatsApp supports it.">
+<meta name="keywords" content="malayali stickman, malayalam sticker maker, whatsapp sticker maker with sound, audio sticker, video to sticker, funny malayalam stickers">
+<meta property="og:title" content="Malayali Stickman – WhatsApp Sticker Maker with Sound">
+<meta property="og:description" content="Turn any video into a square clip with sound for your WhatsApp stickers. Free and online.">
+<meta property="og:type" content="website">
+<style>
+:root{--bg:#f6f7f4;--card:#fff;--ink:#17201a;--mute:#5d685f;--line:#dfe4dc;--acc:#0f8a4b;--acc2:#e8f5ed;--on:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101512;--card:#18201b;--ink:#eef3ef;--mute:#9aa89e;--line:#2a352d;--acc:#38c47a;--acc2:#1b2d22;--on:#06120b}}
+:root[data-theme="dark"]{--bg:#101512;--card:#18201b;--ink:#eef3ef;--mute:#9aa89e;--line:#2a352d;--acc:#38c47a;--acc2:#1b2d22;--on:#06120b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:980px;margin:0 auto;padding:0 18px}
+header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:16px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;text-decoration:none;color:var(--ink)}
+.logo svg{width:34px;height:34px}
+nav a{color:var(--mute);text-decoration:none;margin-right:12px;font-size:14px}
+nav a:hover{color:var(--acc)}
+.hero{text-align:center;padding:26px 0 18px}
+h1{font-size:clamp(28px,5vw,46px);line-height:1.1;margin:0 0 12px;letter-spacing:-.02em}
+h1 span{color:var(--acc)}
+.hero p{color:var(--mute);max-width:600px;margin:0 auto}
+h2{font-size:26px;margin:0 0 14px}
+.studio{display:grid;grid-template-columns:1fr 1fr;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin:18px 0}
+@media(max-width:720px){.studio{grid-template-columns:1fr}}
+.stage{aspect-ratio:1;background:repeating-conic-gradient(var(--acc2) 0 25%,var(--card) 0 50%) 0 0/24px 24px;border:2px dashed var(--line);border-radius:16px;display:grid;place-items:center;position:relative;overflow:hidden;max-width:100%;align-self:start}
+.stage canvas{width:100%;height:100%;display:block}
+.drop{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;cursor:pointer;color:var(--mute);background:color-mix(in srgb,var(--card) 80%,transparent)}
+.drop b{color:var(--ink);display:block;font-size:18px}
+.ctl label{display:block;font-size:13px;font-weight:600;color:var(--mute);margin:12px 0 4px}
+.ctl input[type=range]{width:100%;accent-color:var(--acc)}
+.ctl input[type=text],.ctl select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button,.btn{font:inherit;font-weight:700;border:0;border-radius:12px;padding:12px 18px;background:var(--acc);color:var(--on);cursor:pointer}
+button.alt{background:var(--acc2);color:var(--acc)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.val{float:right;font-weight:500}
+#status{font-size:14px;color:var(--mute);margin-top:10px;min-height:20px}
+progress{width:100%;height:8px;accent-color:var(--acc);display:none;margin-top:8px}
+#result{display:none;margin-top:14px;text-align:center}
+#result video{width:200px;max-width:100%;border-radius:14px;border:1px solid var(--line);background:#000}
+#steps{display:none;text-align:left;background:var(--acc2);border-radius:12px;padding:14px 16px;margin-top:14px;font-size:14.5px}
+#steps ol{margin:8px 0;padding-left:20px}
+#steps a{color:var(--acc);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:34px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.card .n{width:34px;height:34px;border-radius:50%;background:var(--acc);color:var(--on);display:grid;place-items:center;font-weight:800;margin-bottom:8px}
+.card h3{margin:0 0 6px;font-size:17px}.card p{margin:0;color:var(--mute);font-size:14.5px}
+section{margin:36px 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+summary{font-weight:700;cursor:pointer}details p{color:var(--mute);margin:8px 0 0}
+footer{border-top:1px solid var(--line);padding:24px 0 30px;color:var(--mute);font-size:14px;text-align:center}
+footer a{color:var(--acc)}
+.page{display:none}.page.on{display:block}
+</style>
+</head>
+<body>
+<div class="w">
+<header>
+<a class="logo" href="#home"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" style="color:var(--acc)"><circle cx="20" cy="9" r="5"/><path d="M20 14v14M20 20l-9 5M20 20l9 5M20 28l-7 9M20 28l7 9"/></svg>malayalistickman</a>
+<nav><a href="#home">Studio</a><a href="#how">How it works</a><a href="#faq">FAQ</a><a href="#about">About</a><a href="#privacy">Privacy</a></nav>
+</header>
+
+<main id="home" class="page on">
+<div class="hero">
+<h1>WhatsApp stickers <span>with sound</span></h1>
+<p>Pick any video, trim the best moment and add a caption. Save the square clip, then turn it into a sticker inside WhatsApp. Free, runs in your browser, nothing is uploaded.</p>
+</div>
+
+<div class="studio">
+<div class="stage" id="stage">
+<canvas id="cv" width="512" height="512"></canvas>
+<div class="drop" id="drop"><div><b>Tap to choose a video</b>MP4, MOV, WebM · or drag &amp; drop here</div></div>
+</div>
+<div class="ctl">
+<input type="file" id="file" accept="video/*" hidden>
+<label>Start <span class="val" id="sv">0.0s</span></label>
+<input type="range" id="start" min="0" max="0" step="0.1" value="0" disabled>
+<label>Length <span class="val" id="lv">6.0s</span></label>
+<input type="range" id="len" min="1" max="10" step="0.5" value="6" disabled>
+<label>Framing</label>
+<select id="fit"><option value="crop">Fill square (crop)</option><option value="fit">Fit whole video</option></select>
+<label>Caption (optional)</label>
+<input type="text" id="cap" maxlength="40" placeholder="e.g. Enthaa mone!">
+<div class="row">
+<button id="prev" class="alt" disabled>▶ Preview</button>
+<button id="make" disabled>Create sticker clip</button>
+</div>
+<progress id="pg" max="100" value="0"></progress>
+<div id="status">Choose a video to begin.</div>
+<div id="result">
+<video id="out" controls playsinline loop></video>
+<div class="row" style="justify-content:center">
+<button id="add">Add to WhatsApp sticker</button>
+<button id="share" class="alt">Send as video</button>
+</div>
+<div id="steps">
+<b>Clip download started. Finish in WhatsApp:</b>
+<ol>
+<li>Open a chat and open the sticker keyboard.</li>
+<li>Tap <b>Create sticker</b>.</li>
+<li>Choose the clip you just saved.</li>
+<li>Tap the <b>Sound</b> icon and keep the original sound.</li>
+<li>Send or save the sticker.</li>
+</ol>
+<p>No Sound icon? Your WhatsApp may not have sound stickers yet. Update WhatsApp, or use "Send as video".</p>
+<a href="whatsapp://send">Open WhatsApp (on phone) →</a>
+</div>
+</div>
+</div>
+</div>
+
+<section id="how">
+<h2>How it works</h2>
+<div class="grid">
+<div class="card"><div class="n">1</div><h3>Choose a video</h3><p>Open any clip from your phone or computer. It stays on your device.</p></div>
+<div class="card"><div class="n">2</div><h3>Trim and frame</h3><p>Pick the start point and a length up to 10 seconds, then fill or fit the square.</p></div>
+<div class="card"><div class="n">3</div><h3>Create</h3><p>Your browser records a 512×512 clip with its original sound.</p></div>
+<div class="card"><div class="n">4</div><h3>Add in WhatsApp</h3><p>Save the clip, then use Create sticker in WhatsApp and add the sound.</p></div>
+</div>
+</section>
+
+<section id="faq">
+<h2>Frequently asked questions</h2>
+<details><summary>Is malayalistickman free?</summary><p>Yes. There is no sign-up and no watermark.</p></details>
+<details><summary>Are my videos uploaded?</summary><p>No. Everything is processed locally in your browser, so your video never leaves your device.</p></details>
+<details><summary>Can this website add the sticker to WhatsApp automatically?</summary><p>No. You save the clip here and finish the sticker inside WhatsApp.</p></details>
+<details><summary>Will the sticker have sound?</summary><p>WhatsApp has been introducing sound stickers, but they may not be available on every phone yet. If you don't see the Sound option, you can send the clip as a video.</p></details>
+<details><summary>Which format is the output?</summary><p>MP4 where your browser supports it, otherwise WebM. MP4 is the safer choice for WhatsApp.</p></details>
+<details><summary>Can I make Malayalam meme stickers?</summary><p>Yes. Use any clip you have the right to use, add a Malayalam caption and create the sticker.</p></details>
+</section>
+</main>
+
+<main id="about" class="page"><section><h2>About malayalistickman</h2>
+<p>Malayali Stickman is a small free tool for turning favourite moments into shareable clips with sound. It was built so anyone can prepare funny Malayalam sticker clips in the browser.</p>
+<p>Please only use videos you own or have permission to use.</p></section></main>
+
+<main id="privacy" class="page"><section><h2>Privacy</h2>
+<p>Videos you pick are processed entirely in your browser and are never sent to our server. We do not store your files, captions or sticker output. If you share a clip, the app you choose receives it.</p></section></main>
+
+<footer>© <span id="yr"></span> malayalistickman · <a href="#about">About</a> · <a href="#privacy">Privacy</a></footer>
+</div>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+$('yr').textContent=new Date().getFullYear();
+function route(){var h=(location.hash||'#home').slice(1);var pages={home:1,about:1,privacy:1};
+var id=pages[h]?h:'home';
+document.querySelectorAll('.page').forEach(function(p){p.classList.toggle('on',p.id===id)});
+if(h==='how'||h==='faq'){document.getElementById('home').classList.add('on');var e=$(h);if(e)e.scrollIntoView()}}
+addEventListener('hashchange',route);route();
+
+var v=document.createElement('video');v.playsInline=true;v.preload='auto';v.crossOrigin='anonymous';
+var cv=$('cv'),cx=cv.getContext('2d'),S=512,url=null,timer=null,audioCtx=null,dest=null,src=null,blobUrl=null,outBlob=null,outExt='webm';
+
+function draw(){
+cx.clearRect(0,0,S,S);
+if(v.videoWidth){var vw=v.videoWidth,vh=v.videoHeight,fit=$('fit').value==='fit';
+var sc=fit?Math.min(S/vw,S/vh):Math.max(S/vw,S/vh),w=vw*sc,h=vh*sc;
+if(fit){cx.fillStyle='#000';cx.fillRect(0,0,S,S)}
+cx.drawImage(v,(S-w)/2,(S-h)/2,w,h)}
+var t=$('cap').value.trim();
+if(t){cx.font='800 40px system-ui,sans-serif';cx.textAlign='center';cx.textBaseline='bottom';cx.lineWidth=8;cx.lineJoin='round';
+cx.strokeStyle='#000';cx.fillStyle='#fff';cx.strokeText(t,S/2,S-18,S-30);cx.fillText(t,S/2,S-18,S-30)}}
+function loop(){draw();timer=requestAnimationFrame(loop)}
+
+function status(m){$('status').textContent=m}
+function pick(f){
+if(!f||f.type.indexOf('video')!==0){status('Please choose a video file.');return}
+if(url)URL.revokeObjectURL(url);url=URL.createObjectURL(f);v.src=url;
+v.onloadedmetadata=function(){
+var d=v.duration||10;$('start').max=Math.max(0,(d-1)).toFixed(1);$('start').value=0;$('start').disabled=false;$('len').disabled=false;
+$('prev').disabled=false;$('make').disabled=false;$('drop').style.display='none';v.currentTime=0;$('sv').textContent='0.0s';
+status('Loaded ('+d.toFixed(1)+'s). Adjust and create your sticker clip.');
+if(!timer)loop()};
+v.onerror=function(){status('Could not read that video. Try an MP4.')}}
+$('drop').onclick=function(){$('file').click()};
+$('stage').addEventListener('dragover',function(e){e.preventDefault()});
+$('stage').addEventListener('drop',function(e){e.preventDefault();pick(e.dataTransfer.files[0])});
+$('file').onchange=function(){pick(this.files[0])};
+$('start').oninput=function(){$('sv').textContent=(+this.value).toFixed(1)+'s';v.pause();v.currentTime=+this.value};
+$('len').oninput=function(){$('lv').textContent=(+this.value).toFixed(1)+'s'};
+
+function endAt(){return Math.min(v.duration,+$('start').value+ +$('len').value)}
+var pv=false;
+$('prev').onclick=function(){
+v.currentTime=+$('start').value;v.muted=false;v.play();pv=true};
+v.ontimeupdate=function(){if(pv&&v.currentTime>=endAt()){v.pause();pv=false}};
+
+function setupAudio(){
+if(audioCtx)return;
+var AC=window.AudioContext||window.webkitAudioContext;audioCtx=new AC();
+src=audioCtx.createMediaElementSource(v);dest=audioCtx.createMediaStreamDestination();
+src.connect(dest);src.connect(audioCtx.destination)}
+
+$('make').onclick=function(){
+if(!window.MediaRecorder){status('Your browser cannot record video. Try Chrome, Edge or Firefox.');return}
+pv=false;v.pause();
+try{setupAudio();if(audioCtx.state==='suspended')audioCtx.resume()}catch(e){}
+var vs=cv.captureStream(30),tracks=vs.getVideoTracks();
+if(dest)dest.stream.getAudioTracks().forEach(function(t){tracks.push(t)});
+var ms=new MediaStream(tracks);
+var types=['video/mp4;codecs=avc1,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'],mt='';
+for(var i=0;i<types.length;i++){if(MediaRecorder.isTypeSupported(types[i])){mt=types[i];break}}
+var rec;try{rec=new MediaRecorder(ms,mt?{mimeType:mt,videoBitsPerSecond:2500000}:{})}catch(e){status('Recording failed: '+e.message);return}
+outExt=(rec.mimeType||mt).indexOf('mp4')>-1?'mp4':'webm';
+var chunks=[];rec.ondataavailable=function(e){if(e.data.size)chunks.push(e.data)};
+var s=+$('start').value,e=endAt(),dur=Math.max(0.5,e-s);
+$('make').disabled=true;$('prev').disabled=true;$('pg').style.display='block';$('pg').value=0;status('Creating clip…');
+$('result').style.display='none';$('steps').style.display='none';
+var tick;
+rec.onstop=function(){
+clearInterval(tick);v.pause();
+var type=(rec.mimeType||('video/'+outExt)).split(';')[0];
+outBlob=new Blob(chunks,{type:type});
+if(blobUrl)URL.revokeObjectURL(blobUrl);blobUrl=URL.createObjectURL(outBlob);
+$('out').src=blobUrl;$('result').style.display='block';$('pg').style.display='none';
+$('make').disabled=false;$('prev').disabled=false;
+status(outExt==='mp4'?'Done! Tap "Add to WhatsApp sticker".':'Done, but this browser made a WebM file, which WhatsApp may not accept. Try an updated Chrome or Safari.')};
+var go=function(){
+v.onseeked=null;rec.start(200);v.muted=false;
+v.play().catch(function(){status('Tap Create again to allow playback.');if(rec.state!=='inactive')rec.stop()});
+var t0=performance.now();
+tick=setInterval(function(){
+var p=Math.min(100,(performance.now()-t0)/(dur*1000)*100);$('pg').value=p;
+if(v.currentTime>=e||v.ended||p>=100){clearInterval(tick);if(rec.state!=='inactive')rec.stop()}},100)};
+v.onseeked=go;v.currentTime=s};
+
+function download(){var a=document.createElement('a');a.href=blobUrl;a.download='malayalistickman-'+Date.now()+'.'+outExt;document.body.appendChild(a);a.click();a.remove()}
+$('add').onclick=function(){if(!blobUrl)return;download();$('steps').style.display='block'};
+$('share').onclick=function(){
+if(!outBlob)return;
+var f=new File([outBlob],'malayalistickman.'+outExt,{type:outBlob.type});
+if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:'Malayali Stickman'}).catch(function(){})}
+else{download();status('Sharing is not supported here. Attach the downloaded file in WhatsApp.')}};
+$('fit').onchange=$('cap').oninput=draw;
+draw();
+})();
+</script>
+</body>
+</html>
